@@ -5,27 +5,78 @@ export default function Dashboard() {
   const [idea, setIdea] = useState("");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleGenerate = async () => {
+    setError("");
+    setResult("");
+
+    if (!idea.trim()) {
+      setError("Please enter a project idea first");
+      return;
+    }
+
     setLoading(true);
-    const response = await fetch("/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idea }),
-    });
-    const data = await response.json();
-    setResult(data.result);
-    setLoading(false);
+
+    try {
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idea }),
+      });
+
+      // Check if response is ok
+      if (!response.ok) {
+        const text = await response.text();
+        console.error("Error response:", text);
+        setError("Server error: " + response.status);
+        return;
+      }
+
+      const data = await response.json();
+
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+
+      setResult(data.result);
+
+    } catch (err) {
+      console.error("Fetch error:", err);
+      setError("Connection failed. Check console for details.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
-      <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+    <div style={{ 
+      minHeight: "100vh", 
+      backgroundColor: "#111827", 
+      color: "white", 
+      padding: "2rem" 
+    }}>
+      <h1 style={{ fontSize: "2rem", fontWeight: "bold", marginBottom: "2rem" }}>
+        AI Project Scope Generator
+      </h1>
 
-      <div className="max-w-2xl mx-auto">
+      <div style={{ maxWidth: "700px", margin: "0 auto" }}>
+        
         <textarea
-          className="w-full bg-gray-800 rounded-lg p-4 text-white h-40 mb-4"
-          placeholder="Describe your project idea..."
+          style={{
+            width: "100%",
+            backgroundColor: "#1f2937",
+            color: "white",
+            padding: "1rem",
+            borderRadius: "8px",
+            border: "1px solid #374151",
+            height: "160px",
+            fontSize: "1rem",
+            marginBottom: "1rem",
+            resize: "vertical",
+          }}
+          placeholder="Describe your project idea... e.g. Build a restaurant booking app"
           value={idea}
           onChange={(e) => setIdea(e.target.value)}
         />
@@ -33,16 +84,59 @@ export default function Dashboard() {
         <button
           onClick={handleGenerate}
           disabled={loading}
-          className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-semibold"
+          style={{
+            width: "100%",
+            backgroundColor: loading ? "#4b5563" : "#2563eb",
+            color: "white",
+            padding: "0.75rem",
+            borderRadius: "8px",
+            border: "none",
+            fontSize: "1rem",
+            fontWeight: "bold",
+            cursor: loading ? "not-allowed" : "pointer",
+          }}
         >
-          {loading ? "Generating..." : "Generate Scope Document"}
+          {loading ? "⏳ Generating... Please wait" : "🚀 Generate Scope Document"}
         </button>
 
+        {/* Error Box */}
+        {error && (
+          <div style={{
+            marginTop: "1rem",
+            backgroundColor: "#7f1d1d",
+            border: "1px solid #ef4444",
+            borderRadius: "8px",
+            padding: "1rem",
+            color: "#fca5a5",
+          }}>
+            ❌ Error: {error}
+          </div>
+        )}
+
+        {/* Result Box */}
         {result && (
-          <div className="mt-8 bg-gray-800 rounded-lg p-6 whitespace-pre-wrap">
+          <div style={{
+            marginTop: "2rem",
+            backgroundColor: "#1f2937",
+            border: "1px solid #374151",
+            borderRadius: "8px",
+            padding: "1.5rem",
+            whiteSpace: "pre-wrap",
+            lineHeight: "1.8",
+            fontSize: "0.95rem",
+          }}>
+            <h2 style={{ 
+              fontSize: "1.2rem", 
+              fontWeight: "bold", 
+              marginBottom: "1rem",
+              color: "#60a5fa" 
+            }}>
+              ✅ Generated Scope Document
+            </h2>
             {result}
           </div>
         )}
+
       </div>
     </div>
   );
