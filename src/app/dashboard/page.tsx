@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Dashboard() {
   const [idea, setIdea] = useState("");
@@ -65,12 +66,12 @@ export default function Dashboard() {
           <h1
             key={index}
             style={{
-              fontSize: "1.5rem",
+              fontSize: "1.75rem",
               fontWeight: "bold",
               color: "#60a5fa",
-              marginTop: "1.5rem",
-              marginBottom: "0.5rem",
-              borderBottom: "1px solid #374151",
+              marginTop: "2rem",
+              marginBottom: "0.75rem",
+              borderBottom: "1px solid rgba(255,255,255,0.1)",
               paddingBottom: "0.5rem",
             }}
           >
@@ -85,11 +86,11 @@ export default function Dashboard() {
           <h2
             key={index}
             style={{
-              fontSize: "1.2rem",
+              fontSize: "1.4rem",
               fontWeight: "bold",
               color: "#34d399",
-              marginTop: "1.2rem",
-              marginBottom: "0.4rem",
+              marginTop: "1.5rem",
+              marginBottom: "0.5rem",
             }}
           >
             {line.replace("## ", "")}
@@ -103,11 +104,11 @@ export default function Dashboard() {
           <h3
             key={index}
             style={{
-              fontSize: "1rem",
+              fontSize: "1.15rem",
               fontWeight: "bold",
               color: "#fbbf24",
-              marginTop: "1rem",
-              marginBottom: "0.3rem",
+              marginTop: "1.2rem",
+              marginBottom: "0.4rem",
             }}
           >
             {line.replace("### ", "")}
@@ -121,7 +122,7 @@ export default function Dashboard() {
           <h3
             key={index}
             style={{
-              fontSize: "1.1rem",
+              fontSize: "1.2rem",
               fontWeight: "bold",
               color: "#a78bfa",
               marginTop: "1.2rem",
@@ -136,21 +137,24 @@ export default function Dashboard() {
       // Bullet point
       if (line.startsWith("- ") || line.startsWith("* ")) {
         return (
-          <div
+          <motion.div
             key={index}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: Math.min(index * 0.01, 1) }}
             style={{
               display: "flex",
               alignItems: "flex-start",
-              gap: "0.5rem",
-              marginBottom: "0.3rem",
+              gap: "0.75rem",
+              marginBottom: "0.4rem",
               paddingLeft: "1rem",
             }}
           >
             <span style={{ color: "#60a5fa", marginTop: "2px" }}>•</span>
-            <span style={{ color: "#d1d5db", lineHeight: "1.6" }}>
+            <span style={{ color: "#e2e8f0", lineHeight: "1.6" }}>
               {line.replace(/^[-*]\s/, "")}
             </span>
-          </div>
+          </motion.div>
         );
       }
 
@@ -158,10 +162,10 @@ export default function Dashboard() {
       if (line.includes("**")) {
         const parts = line.split("**");
         return (
-          <p key={index} style={{ color: "#d1d5db", marginBottom: "0.3rem", lineHeight: "1.6" }}>
+          <p key={index} style={{ color: "#e2e8f0", marginBottom: "0.4rem", lineHeight: "1.6" }}>
             {parts.map((part, i) =>
               i % 2 === 1 ? (
-                <strong key={i} style={{ color: "#f9fafb" }}>
+                <strong key={i} style={{ color: "#ffffff", fontWeight: "600" }}>
                   {part}
                 </strong>
               ) : (
@@ -177,9 +181,9 @@ export default function Dashboard() {
         <p
           key={index}
           style={{
-            color: "#d1d5db",
-            marginBottom: "0.3rem",
-            lineHeight: "1.6",
+            color: "#cbd5e1",
+            marginBottom: "0.5rem",
+            lineHeight: "1.7",
           }}
         >
           {line}
@@ -192,223 +196,324 @@ export default function Dashboard() {
     <div
       style={{
         minHeight: "100vh",
-        backgroundColor: "#0f172a",
+        backgroundColor: "#050511",
         color: "white",
         padding: "2rem",
+        position: "relative",
+        overflowX: "hidden",
       }}
     >
-      {/* Header */}
+      {/* Background Glows */}
       <div
         style={{
-          textAlign: "center",
-          marginBottom: "2.5rem",
+          position: "fixed",
+          top: "0",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "100%",
+          height: "400px",
+          background: "radial-gradient(ellipse at top, rgba(96, 165, 250, 0.15) 0%, rgba(0,0,0,0) 70%)",
+          filter: "blur(60px)",
+          zIndex: 0,
+          pointerEvents: "none",
         }}
-      >
-        <h1
+      />
+
+      <div style={{ position: "relative", zIndex: 1 }}>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           style={{
-            fontSize: "2.5rem",
-            fontWeight: "bold",
-            background: "linear-gradient(to right, #60a5fa, #a78bfa)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            marginBottom: "0.5rem",
+            textAlign: "center",
+            marginBottom: "3rem",
+            marginTop: "2rem",
           }}
         >
-          AI Scope Generator
-        </h1>
-        <p style={{ color: "#94a3b8", fontSize: "1rem" }}>
-          Turn your idea into a complete project scope document
-        </p>
-      </div>
+          <h1
+            style={{
+              fontSize: "3rem",
+              fontWeight: "bold",
+              background: "linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              marginBottom: "0.75rem",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            AI Scope Generator
+          </h1>
+          <p style={{ color: "#94a3b8", fontSize: "1.1rem" }}>
+            Turn your idea into a complete project scope document
+          </p>
+        </motion.div>
 
-      {/* Input Section */}
-      <div
-        style={{
-          maxWidth: "750px",
-          margin: "0 auto",
-        }}
-      >
+        {/* Input Section */}
         <div
           style={{
-            backgroundColor: "#1e293b",
-            borderRadius: "12px",
-            padding: "1.5rem",
-            marginBottom: "1.5rem",
-            border: "1px solid #334155",
+            maxWidth: "800px",
+            margin: "0 auto",
           }}
         >
-          <label
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
             style={{
-              display: "block",
-              color: "#94a3b8",
-              marginBottom: "0.75rem",
-              fontSize: "0.9rem",
-            }}
-          >
-            💡 Describe your project idea
-          </label>
-
-          <textarea
-            style={{
-              width: "100%",
-              backgroundColor: "#0f172a",
-              color: "white",
-              padding: "1rem",
-              borderRadius: "8px",
-              border: "1px solid #334155",
-              height: "140px",
-              fontSize: "1rem",
-              marginBottom: "1rem",
-              resize: "vertical",
-              outline: "none",
-              boxSizing: "border-box",
-            }}
-            placeholder="e.g. Build a restaurant booking app where users can reserve tables, view menus, and get reminders..."
-            value={idea}
-            onChange={(e) => setIdea(e.target.value)}
-          />
-
-          <button
-            onClick={handleGenerate}
-            disabled={loading}
-            style={{
-              width: "100%",
-              background: loading
-                ? "#334155"
-                : "linear-gradient(to right, #2563eb, #7c3aed)",
-              color: "white",
-              padding: "0.85rem",
-              borderRadius: "8px",
-              border: "none",
-              fontSize: "1rem",
-              fontWeight: "bold",
-              cursor: loading ? "not-allowed" : "pointer",
-              transition: "opacity 0.2s",
-            }}
-          >
-            {loading ? "⏳ Generating your scope document..." : "🚀 Generate Scope Document"}
-          </button>
-        </div>
-
-        {/* Error Box */}
-        {error && (
-          <div
-            style={{
-              backgroundColor: "#450a0a",
-              border: "1px solid #ef4444",
-              borderRadius: "10px",
-              padding: "1rem",
-              color: "#fca5a5",
-              marginBottom: "1.5rem",
-            }}
-          >
-            ❌ {error}
-          </div>
-        )}
-
-        {/* Loading Animation */}
-        {loading && (
-          <div
-            style={{
-              textAlign: "center",
+              backgroundColor: "rgba(30, 41, 59, 0.5)",
+              backdropFilter: "blur(12px)",
+              borderRadius: "16px",
               padding: "2rem",
-              color: "#94a3b8",
+              marginBottom: "2rem",
+              border: "1px solid rgba(255,255,255,0.05)",
+              boxShadow: "0 10px 30px -10px rgba(0,0,0,0.3)",
             }}
           >
-            <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>🤖</div>
-            <p>AI is analyzing your idea...</p>
-            <p style={{ fontSize: "0.85rem", marginTop: "0.5rem" }}>
-              This usually takes 10-20 seconds
-            </p>
-          </div>
-        )}
-
-        {/* Result Box */}
-        {result && (
-          <div
-            style={{
-              backgroundColor: "#1e293b",
-              border: "1px solid #334155",
-              borderRadius: "12px",
-              overflow: "hidden",
-            }}
-          >
-            {/* Result Header */}
-            <div
+            <label
               style={{
-                backgroundColor: "#0f172a",
-                padding: "1rem 1.5rem",
-                borderBottom: "1px solid #334155",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
+                display: "block",
+                color: "#cbd5e1",
+                marginBottom: "1rem",
+                fontSize: "1rem",
+                fontWeight: "500",
               }}
             >
-              <span style={{ color: "#34d399", fontWeight: "bold" }}>
-                ✅ Scope Document Generated
-              </span>
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(result);
-                  alert("Copied to clipboard!");
-                }}
+              <span style={{ marginRight: "8px" }}>💡</span> Describe your project idea
+            </label>
+
+            <motion.textarea
+              whileFocus={{ borderColor: "rgba(96, 165, 250, 0.5)", boxShadow: "0 0 0 2px rgba(96, 165, 250, 0.2)" }}
+              style={{
+                width: "100%",
+                backgroundColor: "rgba(15, 23, 42, 0.6)",
+                color: "white",
+                padding: "1.25rem",
+                borderRadius: "12px",
+                border: "1px solid rgba(51, 65, 85, 0.8)",
+                height: "160px",
+                fontSize: "1.05rem",
+                marginBottom: "1.5rem",
+                resize: "vertical",
+                outline: "none",
+                boxSizing: "border-box",
+                transition: "border-color 0.2s",
+                lineHeight: "1.5",
+              }}
+              placeholder="e.g. Build a restaurant booking app where users can reserve tables, view menus, and get reminders..."
+              value={idea}
+              onChange={(e) => setIdea(e.target.value)}
+            />
+
+            <motion.button
+              whileHover={{ scale: loading ? 1 : 1.02 }}
+              whileTap={{ scale: loading ? 1 : 0.98 }}
+              onClick={handleGenerate}
+              disabled={loading}
+              style={{
+                width: "100%",
+                background: loading
+                  ? "rgba(51, 65, 85, 0.8)"
+                  : "linear-gradient(to right, #2563eb, #7c3aed)",
+                color: loading ? "#94a3b8" : "white",
+                padding: "1rem",
+                borderRadius: "12px",
+                border: "none",
+                fontSize: "1.1rem",
+                fontWeight: "bold",
+                cursor: loading ? "not-allowed" : "pointer",
+                transition: "all 0.3s ease",
+                boxShadow: loading ? "none" : "0 8px 20px rgba(124, 58, 237, 0.2)",
+              }}
+            >
+              {loading ? (
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
+                  <motion.span
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                    style={{ display: "inline-block", fontSize: "1.2rem" }}
+                  >
+                    ⏳
+                  </motion.span>
+                  Generating your scope document...
+                </div>
+              ) : (
+                "🚀 Generate Scope Document"
+              )}
+            </motion.button>
+          </motion.div>
+
+          <AnimatePresence>
+            {/* Error Box */}
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={{ opacity: 1, height: "auto", marginTop: "1.5rem" }}
+                exit={{ opacity: 0, height: 0, marginTop: 0 }}
                 style={{
-                  backgroundColor: "#1e293b",
-                  color: "#94a3b8",
-                  border: "1px solid #334155",
-                  padding: "0.4rem 0.8rem",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  fontSize: "0.85rem",
+                  backgroundColor: "rgba(69, 10, 10, 0.5)",
+                  backdropFilter: "blur(8px)",
+                  border: "1px solid rgba(239, 68, 68, 0.5)",
+                  borderRadius: "12px",
+                  padding: "1.25rem",
+                  color: "#fca5a5",
+                  marginBottom: "1.5rem",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
                 }}
               >
-                📋 Copy
-              </button>
-            </div>
+                <span style={{ fontSize: "1.2rem" }}>❌</span> {error}
+              </motion.div>
+            )}
 
-            {/* Result Content */}
-            <div
-              style={{
-                padding: "1.5rem",
-                lineHeight: "1.7",
-              }}
-            >
-              {formatResult(result)}
-            </div>
-
-            {/* Result Footer */}
-            <div
-              style={{
-                borderTop: "1px solid #334155",
-                padding: "1rem 1.5rem",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <span style={{ color: "#64748b", fontSize: "0.85rem" }}>
-                Generated by Groq AI
-              </span>
-              <button
-                onClick={() => {
-                  setResult("");
-                  setIdea("");
-                }}
+            {/* Loading Animation */}
+            {loading && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
                 style={{
-                  backgroundColor: "transparent",
+                  textAlign: "center",
+                  padding: "3rem",
                   color: "#94a3b8",
-                  border: "1px solid #334155",
-                  padding: "0.4rem 0.8rem",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  fontSize: "0.85rem",
+                  backgroundColor: "rgba(30, 41, 59, 0.3)",
+                  borderRadius: "16px",
+                  border: "1px solid rgba(255,255,255,0.05)",
+                  backdropFilter: "blur(8px)",
                 }}
               >
-                🔄 Generate New
-              </button>
-            </div>
-          </div>
-        )}
+                <motion.div
+                  animate={{ 
+                    y: [0, -15, 0],
+                    rotate: [0, 5, -5, 0]
+                  }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                  style={{ fontSize: "3.5rem", marginBottom: "1.5rem" }}
+                >
+                  🤖
+                </motion.div>
+                <p style={{ fontSize: "1.2rem", fontWeight: "500", color: "#e2e8f0" }}>AI is analyzing your idea...</p>
+                <p style={{ fontSize: "0.95rem", marginTop: "0.75rem", color: "#64748b" }}>
+                  This usually takes 10-20 seconds
+                </p>
+              </motion.div>
+            )}
+
+            {/* Result Box */}
+            {result && !loading && (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, type: "spring", stiffness: 50 }}
+                style={{
+                  backgroundColor: "rgba(30, 41, 59, 0.7)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: "16px",
+                  overflow: "hidden",
+                  boxShadow: "0 20px 40px -10px rgba(0,0,0,0.5)",
+                  backdropFilter: "blur(12px)",
+                  marginBottom: "4rem",
+                }}
+              >
+                {/* Result Header */}
+                <div
+                  style={{
+                    backgroundColor: "rgba(15, 23, 42, 0.8)",
+                    padding: "1.25rem 2rem",
+                    borderBottom: "1px solid rgba(255,255,255,0.05)",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                    <div style={{ 
+                      width: "12px", height: "12px", borderRadius: "50%", backgroundColor: "#34d399",
+                      boxShadow: "0 0 10px rgba(52, 211, 153, 0.5)"
+                    }} />
+                    <span style={{ color: "#f8fafc", fontWeight: "600", fontSize: "1.1rem" }}>
+                      Scope Document Generated
+                    </span>
+                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.05, backgroundColor: "rgba(51, 65, 85, 0.8)" }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      navigator.clipboard.writeText(result);
+                      alert("Copied to clipboard!");
+                    }}
+                    style={{
+                      backgroundColor: "rgba(30, 41, 59, 0.6)",
+                      color: "#e2e8f0",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      padding: "0.5rem 1rem",
+                      borderRadius: "8px",
+                      cursor: "pointer",
+                      fontSize: "0.9rem",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                      transition: "all 0.2s",
+                    }}
+                  >
+                    <span>📋</span> Copy
+                  </motion.button>
+                </div>
+
+                {/* Result Content */}
+                <div
+                  style={{
+                    padding: "2.5rem",
+                    lineHeight: "1.8",
+                  }}
+                >
+                  {formatResult(result)}
+                </div>
+
+                {/* Result Footer */}
+                <div
+                  style={{
+                    borderTop: "1px solid rgba(255,255,255,0.05)",
+                    padding: "1.25rem 2rem",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    backgroundColor: "rgba(15, 23, 42, 0.4)",
+                  }}
+                >
+                  <span style={{ color: "#64748b", fontSize: "0.9rem" }}>
+                    Generated by Groq AI Model
+                  </span>
+                  <motion.button
+                    whileHover={{ scale: 1.05, color: "#f8fafc" }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      setResult("");
+                      setIdea("");
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    style={{
+                      backgroundColor: "transparent",
+                      color: "#94a3b8",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      padding: "0.5rem 1rem",
+                      borderRadius: "8px",
+                      cursor: "pointer",
+                      fontSize: "0.9rem",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                      transition: "all 0.2s",
+                    }}
+                  >
+                    <span>🔄</span> Generate New
+                  </motion.button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );
