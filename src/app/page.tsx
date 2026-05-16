@@ -8,7 +8,7 @@ export default function Home() {
     <div
       style={{
         minHeight: "100vh",
-        backgroundColor: "#050511", // Darker premium AI theme
+        backgroundColor: "#050511",
         color: "white",
         fontFamily: "sans-serif",
         overflowX: "hidden",
@@ -61,6 +61,7 @@ export default function Home() {
             zIndex: 100,
           }}
         >
+          {/* Logo */}
           <div
             style={{
               fontSize: "1.3rem",
@@ -73,9 +74,10 @@ export default function Home() {
             🚀 ScopeAI
           </div>
 
+          {/* Nav Links */}
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <Link
-              href="/dashboard"
+              href="/login"
               style={{
                 color: "#94a3b8",
                 textDecoration: "none",
@@ -85,11 +87,11 @@ export default function Home() {
               onMouseOver={(e) => (e.currentTarget.style.color = "white")}
               onMouseOut={(e) => (e.currentTarget.style.color = "#94a3b8")}
             >
-              Dashboard
+              Login
             </Link>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
-                href="/dashboard"
+                href="/register"
                 style={{
                   backgroundColor: "#2563eb",
                   color: "white",
@@ -156,7 +158,6 @@ export default function Home() {
                 background: "linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-                position: "relative",
               }}
             >
               Complete Project Scope
@@ -193,9 +194,10 @@ export default function Home() {
               flexWrap: "wrap",
             }}
           >
+            {/* Primary CTA - Register */}
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
-                href="/dashboard"
+                href="/register"
                 style={{
                   background: "linear-gradient(to right, #2563eb, #7c3aed)",
                   color: "white",
@@ -211,6 +213,8 @@ export default function Home() {
                 🚀 Try It Free
               </Link>
             </motion.div>
+
+            {/* Secondary CTA */}
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <a
                 href="#how-it-works"
@@ -224,15 +228,49 @@ export default function Home() {
                   fontSize: "1.1rem",
                   border: "1px solid rgba(255, 255, 255, 0.1)",
                   display: "inline-block",
-                  transition: "background 0.3s",
                 }}
-                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "rgba(30, 41, 59, 0.8)")}
-                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "rgba(30, 41, 59, 0.4)")}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.backgroundColor =
+                    "rgba(30, 41, 59, 0.8)")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.backgroundColor =
+                    "rgba(30, 41, 59, 0.4)")
+                }
               >
                 See How It Works
               </a>
             </motion.div>
           </motion.div>
+
+          {/* Already have account link */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            style={{
+              marginTop: "2rem",
+              color: "#64748b",
+              fontSize: "0.95rem",
+            }}
+          >
+            Already have an account?{" "}
+            <Link
+              href="/login"
+              style={{
+                color: "#60a5fa",
+                textDecoration: "none",
+              }}
+              onMouseOver={(e) =>
+                (e.currentTarget.style.textDecoration = "underline")
+              }
+              onMouseOut={(e) =>
+                (e.currentTarget.style.textDecoration = "none")
+              }
+            >
+              Sign In →
+            </Link>
+          </motion.p>
         </section>
 
         {/* Stats Section */}
@@ -258,8 +296,8 @@ export default function Home() {
             { number: "100%", label: "AI Powered" },
             { number: "Free", label: "To Get Started" },
           ].map((stat, index) => (
-            <motion.div 
-              key={index} 
+            <motion.div
+              key={index}
               style={{ textAlign: "center" }}
               initial={{ scale: 0.8, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}
@@ -278,7 +316,15 @@ export default function Home() {
               >
                 {stat.number}
               </div>
-              <div style={{ color: "#94a3b8", fontSize: "1rem", fontWeight: "500", textTransform: "uppercase", letterSpacing: "1px" }}>
+              <div
+                style={{
+                  color: "#94a3b8",
+                  fontSize: "1rem",
+                  fontWeight: "500",
+                  textTransform: "uppercase",
+                  letterSpacing: "1px",
+                }}
+              >
                 {stat.label}
               </div>
             </motion.div>
@@ -353,7 +399,10 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                whileHover={{ y: -5, boxShadow: "0 10px 30px -10px rgba(96, 165, 250, 0.2)" }}
+                whileHover={{
+                  y: -5,
+                  boxShadow: "0 10px 30px -10px rgba(96, 165, 250, 0.2)",
+                }}
                 style={{
                   backgroundColor: "rgba(30, 41, 59, 0.4)",
                   border: "1px solid rgba(255, 255, 255, 0.05)",
@@ -363,7 +412,13 @@ export default function Home() {
                   transition: "all 0.3s ease",
                 }}
               >
-                <div style={{ fontSize: "2.5rem", marginBottom: "1rem", filter: "drop-shadow(0 0 10px rgba(255,255,255,0.2))" }}>
+                <div
+                  style={{
+                    fontSize: "2.5rem",
+                    marginBottom: "1rem",
+                    filter: "drop-shadow(0 0 10px rgba(255,255,255,0.2))",
+                  }}
+                >
                   {feature.icon}
                 </div>
                 <h3
@@ -376,7 +431,13 @@ export default function Home() {
                 >
                   {feature.title}
                 </h3>
-                <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.6" }}>
+                <p
+                  style={{
+                    color: "#94a3b8",
+                    fontSize: "1rem",
+                    lineHeight: "1.6",
+                  }}
+                >
                   {feature.desc}
                 </p>
               </motion.div>
@@ -450,7 +511,6 @@ export default function Home() {
                   flex: "1",
                   minWidth: "220px",
                   maxWidth: "260px",
-                  position: "relative",
                 }}
               >
                 <motion.div
@@ -492,7 +552,15 @@ export default function Home() {
                 >
                   {step.title}
                 </h3>
-                <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>{step.desc}</p>
+                <p
+                  style={{
+                    color: "#94a3b8",
+                    fontSize: "1rem",
+                    lineHeight: "1.5",
+                  }}
+                >
+                  {step.desc}
+                </p>
               </motion.div>
             ))}
           </div>
@@ -540,24 +608,46 @@ export default function Home() {
             >
               Join developers who use ScopeAI to plan faster and build better.
             </p>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                href="/dashboard"
-                style={{
-                  background: "linear-gradient(to right, #2563eb, #7c3aed)",
-                  color: "white",
-                  padding: "1.2rem 3rem",
-                  borderRadius: "12px",
-                  textDecoration: "none",
-                  fontSize: "1.1rem",
-                  fontWeight: "bold",
-                  display: "inline-block",
-                  boxShadow: "0 10px 25px rgba(124, 58, 237, 0.3)",
-                }}
-              >
-                🚀 Start For Free
-              </Link>
-            </motion.div>
+
+            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link
+                  href="/register"
+                  style={{
+                    background: "linear-gradient(to right, #2563eb, #7c3aed)",
+                    color: "white",
+                    padding: "1.2rem 3rem",
+                    borderRadius: "12px",
+                    textDecoration: "none",
+                    fontSize: "1.1rem",
+                    fontWeight: "bold",
+                    display: "inline-block",
+                    boxShadow: "0 10px 25px rgba(124, 58, 237, 0.3)",
+                  }}
+                >
+                  🚀 Start For Free
+                </Link>
+              </motion.div>
+
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link
+                  href="/login"
+                  style={{
+                    backgroundColor: "rgba(30, 41, 59, 0.6)",
+                    color: "#e2e8f0",
+                    padding: "1.2rem 3rem",
+                    borderRadius: "12px",
+                    textDecoration: "none",
+                    fontSize: "1.1rem",
+                    fontWeight: "bold",
+                    display: "inline-block",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                  }}
+                >
+                  Sign In
+                </Link>
+              </motion.div>
+            </div>
           </motion.div>
         </section>
 
@@ -572,6 +662,17 @@ export default function Home() {
             backgroundColor: "rgba(15, 23, 42, 0.8)",
           }}
         >
+          <div style={{ display: "flex", justifyContent: "center", gap: "2rem", marginBottom: "1rem" }}>
+            <Link href="/login" style={{ color: "#64748b", textDecoration: "none" }}>
+              Login
+            </Link>
+            <Link href="/register" style={{ color: "#64748b", textDecoration: "none" }}>
+              Register
+            </Link>
+            <Link href="/dashboard" style={{ color: "#64748b", textDecoration: "none" }}>
+              Dashboard
+            </Link>
+          </div>
           <p>© 2025 ScopeAI. Built with Next.js and Groq AI.</p>
         </footer>
       </div>
